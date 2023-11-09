@@ -1,29 +1,46 @@
 const mongoose = require('mongoose')
 const CustomErrorHandler = require('../utils/custom.error.handler')
-
+const verifyJWT = require('../utils/jwt/verify.jwt.token')
+const User = require('../models/user')
+const ObjectId = require("mongoose").Types.ObjectId;
 
 // validate user id
-const validateUserId = (req, res, next) => {
+const validateUserId = async (req, res, next) => {
     if (!req.body) return new CustomErrorHandler(400, "Invalid Request")
 
     const authToken = req.headers["authorization"] ? req.headers["authorization"].split(" ")[1] : ""
 
     if (!authToken) return new CustomErrorHandler(400, "User Id Not Found")
 
-    const isValid = mongoose.Types.ObjectId.isValid(userId)
+    const { sub } = await verifyJWT.authenticateJWT(authToken)
+
+    const isValid = mongoose.Types.ObjectId.isValid(sub)
 
     if (!isValid) return new CustomErrorHandler(400, "Invalid UserId")
 
-}   
+    if (!sub) return CustomErrorHandler.serverError("Somethign Went Wrong")
+
+    const user = await User.findOne({ _id: new ObjectId(sub) })
+
+    if (!user) return new CustomErrorHandler(400, "Invalid UserId")
+
+    req.user = user
+
+    next()
+}
 
 // validate user name
-const validateName = (name) => {
+const validateName = (req, res, next) => {
     if (!req.body) return new CustomErrorHandler(400, "Invalid Request")
 
-    if (!req.body.name) return new CustomErrorHandler(400, "Please Provide Name")
+    if (!req.body.name) return new CustomErrorHandler(400, "Invalid Name")
 
     const regex = /^[A-Za-z\s]+$/;
-    const result = regex.test(name) && name.length >= 3 && name.length <= 25;
+    const result = regex.test(req.body.name) && req.body.name.length >= 3 && req.body.name.length <= 25;
+
+    if (!result) return new CustomErrorHandler(400, "Invalid Name")
+
+    next()
 }
 
 // validate user email
