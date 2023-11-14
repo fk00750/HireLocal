@@ -1,5 +1,4 @@
-const { ValidationError } = require("joi");
-const CustomErrorHandler = require("../utils/CustomErrorHandler");
+const CustomErrorHandler = require("../utils/custom.error.handler");
 
 const errorHandler = (err, req, res, next) => {
   let statusCode = 500;
@@ -9,17 +8,6 @@ const errorHandler = (err, req, res, next) => {
     message: "Internal Server Error",
     errorMessage: err.message,
   };
-
-  // if the error is from registeration validiton from joi
-  if (err instanceof ValidationError) {
-    console.log(
-      "Instance of ValidationError message from ErrorHandler.js file"
-    );
-    statusCode = 422;
-    let data = {
-      errorMessage: err.message,
-    };
-  }
 
   // custom error messages
   if (err instanceof CustomErrorHandler) {
