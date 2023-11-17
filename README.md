@@ -2,7 +2,7 @@
 
 - Guest: 0
 - Registered user: 1
-- Customer user: 2
+- Verified user: 2
 - Labor user: 3
 - Admin: 4
 - Blocked: -1
@@ -10,3 +10,5 @@
 ## Job Status
 - Open: 0
 - Close: 1
+
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTU1ZGY1MGNlMWQzOTUxZGIyNjg0MjciLCJpYXQiOjE3MDAxOTY3MzgsImV4cCI6MTczMTc1NDMzOH0.Bz4lIKr65aBxy1wgJEMgsC_xGWioaJdqYpUIIgMZHnSEq5XwDVzUTy-7Aap4zHoTe2kPEnpV85KKVx29CuXjPG9TdUZp3hbnDXtkKXnTYVQ3UnfV36fp2G88s9wzImy-Y17Wv0-qro_2NYLkzDB9iJAsK9BXu8Uoj1g8CY0QclppJWlwI9tP-KzUkVlQoPNKlwF1zxwg5uLbC8OYFfVGYtv3R7qK-e6UWTuIo8zvOqIM1tHd9TbMsOwnQWt0ngM-MP3N_-ULVKrjMwr2xbokN3vb3JdwWU1QU4WLUK3a_F5lKQxvEDihDQO8nQo2sKQv1Jtrb7lFZkftVwcjIJEhr_rrLMgJLCLEb7eJ3oo8V1I1CkusiBfZCy3fPZNS-NwVz7fA7R8zN37syPdWjMtSiXoin9tEYGPzuHluLEOGQEXx472GffNNDsy_r2hZuYA1JccC_d8YrQN0Rvz1rUH-BS9prPt4xkYVMOmwDy1fIQbUytFonO6MZrUJlG9jtkTdAoB_-ysyFXHqL4rhjWlMrtTmh0K4Krzato_DbXz7HE6-lhLsv3rkxf8culXB6qzCAWHdTnADl88lLvEvNpqf7uo4LeMX_wYgyQZXvLdsWaJUJ5X3QuM1Z3_M9Ht38t5yQLI_sr1Iyy3zQUvvE7daepJSiDglKQ_d2p6KmGBbnwI

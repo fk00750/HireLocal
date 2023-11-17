@@ -2,11 +2,13 @@ const User = require("../../models/user");
 const CustomErrorHandler = require("../../utils/custom.error.handler");
 const { UserManager } = require("../../utils/helper_functions");
 const IssueAccessToken = require("../../utils/jwt/issue.jwt.token");
+const userManager = new UserManager();
+
 
 const login = async (req, res, next) => {
+    console.log("LOG IN")
     try {
         const { email, mobile, password } = req.body;
-        const userManager = new UserManager();
 
         const user = email
             ? await userManager.findUserByEmail(email)
@@ -29,6 +31,7 @@ const login = async (req, res, next) => {
         res.status(200).json({
             success: true,
             token: token,
+            role: user.role,
             message: "Login successful",
         });
     } catch (error) {
@@ -40,8 +43,7 @@ const login = async (req, res, next) => {
 const register = async (req, res, next) => {
     try {
         // Check if user already exits
-        const { name, email, mobile, password, userRole } = req.body;
-        const userManager = new UserManager();
+        const { name, email, mobile, password, role } = req.body;
 
         const user = email
             ? await userManager.findUserByEmail(email)
@@ -49,12 +51,12 @@ const register = async (req, res, next) => {
                 ? await userManager.findUserByMobile(mobile)
                 : null;
 
-        if (user) return CustomErrorHandler.alreadyExist("user already exist")
+        if (user) return next(CustomErrorHandler.alreadyExist("user already exist"))
 
         // create user
-        const isUserCreated = await userManager.createUser(name, email, mobile, userRole, password)
+        const isUserCreated = await userManager.createUser(name, email, mobile, role, password)
 
-        if (!isUserCreated) return CustomErrorHandler.somethingWentWrong()
+        if (!isUserCreated) return next(CustomErrorHandler.somethingWentWrong())
 
         res.status(200).json({
             message: "success"

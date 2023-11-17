@@ -12,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
   // custom error messages
   if (err instanceof CustomErrorHandler) {
     console.log(
-      "Instance of CustomErrorHandler.js message from ErrorHandler.js file"
+      "Instance of CustomErrorHandler.js message from ErrorHandler.js file", err.message
     );
     statusCode = err.status;
     data = {

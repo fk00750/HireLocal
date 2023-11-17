@@ -52,10 +52,11 @@ const validateName = (req, res, next) => {
 
 // validate user email
 const validateEmail = (req, res, next) => {
+    console.log("PASS 1")
     if (!req.body) return next(new CustomErrorHandler(400, "Invalid Request"))
 
-    if (req.body.mobile) return next()
-    else if (!req.body.email) return next(new CustomErrorHandler(400, "Invalid Email"))
+    // if (req.body.mobile) return next()
+    if (!req.body.email) return next(new CustomErrorHandler(400, "Invalid Email **"))
 
     const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const result = regex.test(String(req.body.email).toLowerCase())
@@ -69,8 +70,8 @@ const validateMobile = (req, res, next) => {
     try {
         if (!req.body) return next(new CustomErrorHandler(400, "Invalid Request"))
 
-        if (req.body.email) return next()
-        else if (!req.body.mobile) return next(new CustomErrorHandler(400, "Invalid Mobile **"))
+        // if (req.body.email) return next()
+        if (!req.body.mobile) return next(new CustomErrorHandler(400, "Invalid Mobile **"))
 
         const regex = /^\d{10}$/;
         const result = regex.test(req.body.mobile);
@@ -87,6 +88,7 @@ const validateMobile = (req, res, next) => {
 
 // validate user password
 const validatePassword = (req, res, next) => {
+    console.log("PASS 2")
     if (!req.body) return next(new CustomErrorHandler(400, "Invalid Request"))
 
     if (!req.body.password) return next(new CustomErrorHandler(400, "Invalid Password"))

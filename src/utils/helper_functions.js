@@ -1,5 +1,7 @@
+const Job = require("../models/job");
 const User = require("../models/user")
-const crypto = require('crypto')
+const crypto = require('crypto');
+const Worker = require("../models/worker");
 
 class UserManager {
     async findUser(criteria) {
@@ -38,27 +40,82 @@ class UserManager {
         return enteredHash === storedHash
     }
 
-    async createUser(name, email, mobile, userRole, password) {
+    async createUser(name, email, mobile, role, password) {
         try {
             // hash password
-            const hashedPassword = this.hashedPassword(password)
+            const hashedPassword = this.hashedPassword(password);
 
-            if (!hashedPassword) throw error
+            if (!hashedPassword) throw error;
 
             // create user
             const user = await User.create({
-                name, email, mobile, password: hashedPassword
+                name,
+                role: role ? (role === "worker" ? 3 : 2) : undefined,
+                email,
+                mobile,
+                password: hashedPassword
+            });
+
+            if (!user) throw error;
+
+            return user;
+        } catch (error) {
+            console.log(`utils > helper_functions > userManager > createUser: ${error.message}`);
+            return false;
+        }
+    }
+
+    async createWorker(workerId, workType, age, location, specialty, experience, wage) {
+        try {
+            const worker = await Worker.create({ workerId, workType, age, location, specialty, experience, wage })
+
+            if (!worker) return
+
+            return worker
+        } catch (error) {
+            return false
+        }
+    }
+}
+
+class JobManager {
+    async createJob(status, userId, jobId, title, description, workType, numberOfLaborers, location) {
+        try {
+            const job = await Job.create({
+                status, userId, jobId, title, description, workType, numberOfLaborers, location
             })
 
-            if (!user) throw error
+            if (!job) throw error
 
-            return user
+            return job
         } catch (error) {
-            console.log(`utils > helper_functions > userManager > createUser: ${error.message}`)
+            console.log(`utils > helper_functions > userManager > createJob: ${error.message}`)
+            return false
+        }
+    }
+}
+
+class WorkerManager {
+    async createWorker(workerId, workType, age, location, specialty, experience, wage) {
+        try {
+            const worker = await Worker.create({ workerId, workType, age, location, specialty, experience, wage })
+
+            if (!worker) return
+
+            return worker
+        } catch (error) {
+            return false
+        }
+    }
+
+    async getWorker(userId) {
+        try {
+            
+        } catch (error) {
             return false
         }
     }
 }
 
 
-module.exports = { UserManager }
+module.exports = { UserManager, JobManager }

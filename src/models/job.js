@@ -17,7 +17,8 @@ const jobSchema = new mongoose.Schema({
         required: true
     },
     description: {
-        type: String
+        type: String,
+        default: ""
     },
     workType: {
         type: String,
@@ -32,3 +33,7 @@ const jobSchema = new mongoose.Schema({
         required: true
     }
 })
+
+const Job = mongoose.model("Job",jobSchema)
+
+module.exports = Job
