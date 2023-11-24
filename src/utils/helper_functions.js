@@ -64,18 +64,6 @@ class UserManager {
             return false;
         }
     }
-
-    async createWorker(workerId, workType, age, location, specialty, experience, wage) {
-        try {
-            const worker = await Worker.create({ workerId, workType, age, location, specialty, experience, wage })
-
-            if (!worker) return
-
-            return worker
-        } catch (error) {
-            return false
-        }
-    }
 }
 
 class JobManager {
@@ -104,18 +92,37 @@ class WorkerManager {
 
             return worker
         } catch (error) {
+            console.log(`src > utils > helper_functions > WorkerManager > createWorker : ${error.message}`)
             return false
         }
     }
 
-    async getWorker(userId) {
+    async getWorkerAdditionalDetails(userId) {
         try {
-            
+            const workerDetails = await Worker.findOne({ workerId: userId })
+
+            if (!workerDetails) return
+
+            return workerDetails
         } catch (error) {
+            console.log(`src > utils > helper_functions > WorkerManager > getWorkerAdditionalDetails : ${error.message}`)
+            return false
+        }
+    }
+
+    async getAllWorkers() {
+        try {
+            const Workers = await Worker.find({})
+
+            if (!Workers) return
+
+            return Workers
+        } catch (error) {
+            console.log(`src > utils > helper_functions > WorkerManager > getAllWorkers : ${error.message}`)
             return false
         }
     }
 }
 
 
-module.exports = { UserManager, JobManager }
+module.exports = { UserManager, JobManager, WorkerManager }

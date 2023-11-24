@@ -4,7 +4,6 @@ const { UserManager, JobManager } = require('../../utils/helper_functions');
 const ObjectId = require('mongoose').Types.ObjectId
 const jobManager = new JobManager()
 
-
 const postJob = async (req, res, next) => {
     try {
         const { _id } = req.user;

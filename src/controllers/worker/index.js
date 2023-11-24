@@ -1,7 +1,8 @@
-const { UserManager } = require("../../utils/helper_functions");
+const CustomErrorHandler = require("../../utils/custom.error.handler");
+const { WorkerManager } = require("../../utils/helper_functions");
 const ObjectId = require('mongoose').Types.ObjectId
 
-const userManager = new UserManager()
+const workerManager = new WorkerManager()
 
 const postWorkerInfo = async (req, res, next) => {
     try {
@@ -20,7 +21,7 @@ const postWorkerInfo = async (req, res, next) => {
 
         const workerId = new ObjectId(_id);
 
-        const isWorkerCreated = await userManager.createWorker(workerId, workType, age, location, specialty, experience, wage)
+        const isWorkerCreated = await workerManager.createWorker(workerId, workType, age, location, specialty, experience, wage)
 
         if (!isWorkerCreated) return next(CustomErrorHandler.somethingWentWrong());
 
@@ -34,4 +35,21 @@ const postWorkerInfo = async (req, res, next) => {
     }
 }
 
-module.exports = { postWorkerInfo }
+const getWorker = async (req, res, next) => {
+    try {
+        const { _id, name, email, mobile } = req.user
+
+        const worker = await workerManager.getWorkerAdditionalDetails(_id)
+
+        if (!worker) return next(CustomErrorHandler.notFound("Worker Not Found"))
+
+        const { workType, age, location, experience, wage } = worker
+
+        res.status(200).json({ name, email, mobile, workType, age, location, experience, wage })
+    } catch (error) {
+        console.log(`src > controllers > worker > index.js > getWorker: ${error.message}`)
+        next(error)
+    }
+}
+
+module.exports = { postWorkerInfo, getWorker }
